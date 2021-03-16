@@ -4,5 +4,5 @@ import java.util
 import java.util.List
 
 
-class Emphasis(override val markDownList: Array[MarkDown]) extends MarkAbstract(markDownList, "*") with MarkDown {
+class Emphasis(val markDownList: Array[MarkDown]) extends MarkAbstract("*") with MarkDown {
 }

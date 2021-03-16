@@ -5,5 +5,5 @@ import java.util
 import java.util.List
 
 
-class Strikeout(override val markDownList: Array[MarkDown]) extends MarkAbstract(markDownList, "~") {
+class Strikeout(val markDownList: Array[MarkDown]) extends MarkAbstract("~") {
 }

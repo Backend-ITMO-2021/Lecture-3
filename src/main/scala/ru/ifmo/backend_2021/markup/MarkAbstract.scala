@@ -6,7 +6,8 @@ import ru.ifmo.backend_2021.fileutils.FileUtils
 import java.util
 
 
-abstract class MarkAbstract(val markDownList: Array[MarkDown], val MARK: String) extends MarkDown {
+abstract class MarkAbstract(val MARK: String) extends MarkDown {
+  val markDownList: Array[MarkDown]
   override def toMarkdown(builder: StringBuilder): StringBuilder = {
     if (markDownList == null) return builder
     builder.append(MARK)
