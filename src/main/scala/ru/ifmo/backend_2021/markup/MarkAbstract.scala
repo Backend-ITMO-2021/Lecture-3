@@ -7,7 +7,7 @@ import java.util
 
 
 abstract class MarkAbstract(val MARK: String) extends MarkDown {
-  val markDownList: Array[MarkDown]
+  def markDownList: Array[MarkDown]
   override def toMarkdown(builder: StringBuilder): StringBuilder = {
     if (markDownList == null) return builder
     builder.append(MARK)
