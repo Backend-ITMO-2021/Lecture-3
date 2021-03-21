@@ -1,7 +1,5 @@
 package ru.ifmo.backend_2021.reddit
 
-import scala.util.control.Breaks._
-
 class RedditMessage(val id: Int, val parentId: Option[Int], val text: String) {
   override def toString: String = s"#$id $text"
 }
@@ -21,9 +19,8 @@ class RedditThreadPrinter {
   def appendChildren(depth: Int, sb: StringBuilder,
                      parentId: Int,
                      groupedMessages: Map[Option[Int], Array[RedditMessage]]): Unit = {
-    breakable {
-      val children = groupedMessages.get(Option(parentId))
-      if (children.isEmpty) break
+    val children = groupedMessages.get(Option(parentId))
+    if (children.isDefined) {
       children.get.foreach(child => {
         sb.appendAll(getMessage(depth + 1, child))
         appendChildren(depth + 1, sb, child.id, groupedMessages)
