@@ -4,7 +4,24 @@ class RedditMessage(val id: Int, val parentId: Option[Int], val text: String)
 
 class RedditThreadPrinter {
   def printMessages(messages: Array[RedditMessage])(handlePrint: String => Unit): Unit = {
-    handlePrint("")
+    val output = new StringBuilder()
+    val sortedMessages = messages.groupBy(_.parentId)
+    sortedMessages(None).foreach(message => {
+      output.append("\n#" + message.id.toString + " " + message.text)
+      nextMessage(0, message.id, output, sortedMessages)
+    })
+    handlePrint(output.toString().trim)
+  }
+
+  def nextMessage(indents: Int, parentId: Int, output: StringBuilder, sortedMessages: Map[Option[Int], Array[RedditMessage]]): Unit = {
+    val next = sortedMessages.get(Option(parentId))
+    if (next != None) {
+      next.get.foreach(message => {
+        output.append("\n" + List.fill(indents+1)(" ").mkString + "#" + message.id.toString + " " + message.text)
+        nextMessage(indents+1, message.id, output, sortedMessages)
+      })
+    }
+
   }
 }
 
