@@ -4,7 +4,20 @@ class RedditMessage(val id: Int, val parentId: Option[Int], val text: String)
 
 class RedditThreadPrinter {
   def printMessages(messages: Array[RedditMessage])(handlePrint: String => Unit): Unit = {
-    handlePrint("")
+    val result = new StringBuilder()
+    val curLevel = None: Option[Int]
+    val spaces = 0
+    loop(spaces, curLevel, result, messages: Array[RedditMessage])
+    handlePrint(result.toString().trim)
+  }
+
+  def loop(spaces: Int, curLevel: Option[Int], result: StringBuilder, messages: Array[RedditMessage]): Unit = {
+    for( message <- messages ){
+      if (message.parentId == curLevel){
+        result.append("\n" + List.fill(spaces)(" ").mkString + "#" + message.id.toString + " " + message.text)
+        loop(spaces + 1, Option(message.id), result, messages: Array[RedditMessage])
+      }
+    }
   }
 }
 
@@ -28,16 +41,16 @@ object TestRedditThreadPrinter extends App {
   ){
     s => println(s)
   }
-/*
-  Should output:
-#0 I don't particularly care which interaction they pick so long as it's consistent.
- #1 Exactly, both is fine but do pick one.
-  #2 Riot consistency
- #3 Bad bot
-#4 I think it should be 4x1 damage always
- #5 Yeah, because you're pulling X number of puffcaps, that doesn't mean one puffcap deals X damage, it's X puffcaps deal 1 damage.
- #6 I think 1xShrooms
-  #7 I agree, but I'm also scared of swain stunning 4 charas at the start of the turn lol.
-  #8 So swain should stun multiple people right?
-*/
+  /*
+    Should output:
+  #0 I don't particularly care which interaction they pick so long as it's consistent.
+   #1 Exactly, both is fine but do pick one.
+    #2 Riot consistency
+   #3 Bad bot
+  #4 I think it should be 4x1 damage always
+   #5 Yeah, because you're pulling X number of puffcaps, that doesn't mean one puffcap deals X damage, it's X puffcaps deal 1 damage.
+   #6 I think 1xShrooms
+    #7 I agree, but I'm also scared of swain stunning 4 charas at the start of the turn lol.
+    #8 So swain should stun multiple people right?
+  */
 }
