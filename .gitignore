@@ -1,3 +1,6 @@
 target
 .bsp
 .idea
+.metals/readonly/scala/Predef.scala
+.metals/metals.*
+.vscode/settings.json
