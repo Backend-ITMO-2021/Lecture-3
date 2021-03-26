@@ -29,7 +29,7 @@ object TestRedditThreadPrinter extends App {
     s => println(s)
   }
 /*
-  Should output:
+  Should output: 
 #0 I don't particularly care which interaction they pick so long as it's consistent.
  #1 Exactly, both is fine but do pick one.
   #2 Riot consistency
