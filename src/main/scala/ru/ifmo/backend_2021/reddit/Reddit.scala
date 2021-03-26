@@ -4,7 +4,23 @@ class RedditMessage(val id: Int, val parentId: Option[Int], val text: String)
 
 class RedditThreadPrinter {
   def printMessages(messages: Array[RedditMessage])(handlePrint: String => Unit): Unit = {
-    handlePrint("")
+    handlePrint(messages.filter(m => m.parentId.isEmpty)
+      .flatMap(sortMessages(messages))
+      .map(printMessage(messages))
+      .mkString("\n"))
+  }
+
+  private def sortMessages(messages: Array[RedditMessage])(message: RedditMessage): Array[RedditMessage] = {
+    Array(message).appendedAll(messages.filter(m => m.parentId.contains(message.id)).flatMap(sortMessages(messages)))
+  }
+
+  private def printMessage(messages: Array[RedditMessage])(message: RedditMessage): String = {
+    val offset = LazyList.iterate(message.parentId) { p =>
+      if (p.isEmpty) None
+      else messages.find(m => m.id == p.get).get.parentId
+    }.takeWhile(p => p.nonEmpty).length
+
+    " " * offset + "#" + message.id + " " + message.text
   }
 }
 
@@ -28,16 +44,16 @@ object TestRedditThreadPrinter extends App {
   ){
     s => println(s)
   }
-/*
-  Should output:
-#0 I don't particularly care which interaction they pick so long as it's consistent.
- #1 Exactly, both is fine but do pick one.
-  #2 Riot consistency
- #3 Bad bot
-#4 I think it should be 4x1 damage always
- #5 Yeah, because you're pulling X number of puffcaps, that doesn't mean one puffcap deals X damage, it's X puffcaps deal 1 damage.
- #6 I think 1xShrooms
-  #7 I agree, but I'm also scared of swain stunning 4 charas at the start of the turn lol.
-  #8 So swain should stun multiple people right?
-*/
+  /*
+    Should output:
+  #0 I don't particularly care which interaction they pick so long as it's consistent.
+   #1 Exactly, both is fine but do pick one.
+    #2 Riot consistency
+   #3 Bad bot
+  #4 I think it should be 4x1 damage always
+   #5 Yeah, because you're pulling X number of puffcaps, that doesn't mean one puffcap deals X damage, it's X puffcaps deal 1 damage.
+   #6 I think 1xShrooms
+    #7 I agree, but I'm also scared of swain stunning 4 charas at the start of the turn lol.
+    #8 So swain should stun multiple people right?
+  */
 }
