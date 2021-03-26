@@ -1,8 +1,7 @@
-package ru.ifmo.backend_2021.fileutils
+package ru.ifmo.backend_2021.markup
 
 class Text(var text: String) extends MarkupElement {
   def toMarkdown(str: StringBuilder) = {
-    str.append(this.text)
-    str
+    str.appendAll(this.text)
   }
 }

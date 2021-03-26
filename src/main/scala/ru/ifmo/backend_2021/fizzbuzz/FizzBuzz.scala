@@ -3,7 +3,7 @@ package ru.ifmo.backend_2021.fizzbuzz
 
 class FizzBuzz {
   def flexibleFizzBuzz(func: String => Unit): Unit ={
-    for(i <- 0 until 1000){
+    for(i <- 1 until 101){
       if(i % 3 == 0 && i % 5 == 0){
         func("FizzBuzz")
       }else if(i % 3 == 0){
