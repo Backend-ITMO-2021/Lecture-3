@@ -5,10 +5,10 @@ class FileUtils {
   
     def withFileReader(file: String)(reader: BufferedReader => String): String = {
         val fileReader = new BufferedReader(new FileReader(file));
-        var finStr = ""
-        if (fileReader.ready()) { finStr = reader(fileReader)}
+        val finStr = new StringBuilder()
+        if (fileReader.ready()) { finStr.append(reader(fileReader))}
         fileReader.close()
-        finStr
+        finStr.toString()
     }
 
     def withFileWriter(file: String)(writer: BufferedWriter => Unit): Unit = {

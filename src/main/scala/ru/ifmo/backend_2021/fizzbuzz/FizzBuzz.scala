@@ -1,7 +1,7 @@
 package ru.ifmo.backend_2021.fizzbuzz
 class FizzBuzz {
-    var FIZZ = "Fizz";
-    var BUZZ = "Buzz";
+    val FIZZ = "Fizz";
+    val BUZZ = "Buzz";
 
     def flexibleFizzBuzz(insertedFunc: String => Unit): Unit = {
         for (i <- 1 to 100){
