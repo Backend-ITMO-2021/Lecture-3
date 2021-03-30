@@ -11,6 +11,7 @@ class FizzBuzzTest extends AnyFunSuite {
     action
     val value = newOut.toString
     newOut.close()
+    System.setOut(System.out)
     value
   }
 
