@@ -25,12 +25,12 @@ class FizzBuzzTest extends AnyFunSuite {
   test("string builder") {
     val fizzBuzz = new FizzBuzz()
     val sb = new StringBuilder
-    val out = catchOut {
-      fizzBuzz.flexibleFizzBuzz(s => {
+    fizzBuzz.flexibleFizzBuzz(
+      s => {
         sb.append(s)
         sb.append("\n")
-      })
-    }
-    assert(out == FIZZ_BUZZ_RESULT)
+      }
+    )
+    assert(sb.result() == FIZZ_BUZZ_RESULT)
   }
 }
