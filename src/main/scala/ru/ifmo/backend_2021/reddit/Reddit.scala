@@ -1,11 +1,32 @@
 package ru.ifmo.backend_2021.reddit
 
-class RedditMessage(val id: Int, val parentId: Option[Int], val text: String)
+import scala.language.postfixOps
+
+class RedditMessage(val id: Int, val parentId: Option[Int], val text: String) {
+  def toString(depth: Int): String = s"${" " * depth}#$id $text\n"
+}
 
 class RedditThreadPrinter {
   def printMessages(messages: Array[RedditMessage])(handlePrint: String => Unit): Unit = {
-    handlePrint("")
+    val sb = new StringBuilder("")
+    val messagesGrouped = messages.groupBy(_.parentId)
+    val startMessages = messagesGrouped.get(None)
+
+    def printThread(depth: Int, currentMessage: RedditMessage): Unit = {
+      sb.append(currentMessage.toString(depth))
+      for (childMessage <- messagesGrouped.getOrElse(Some(currentMessage.id), Array[RedditMessage]())) {
+        printThread(depth + 1, childMessage)
+      }
+    }
+
+    for (message: RedditMessage <- startMessages.getOrElse(Array[RedditMessage]())) {
+      printThread(0, message)
+    }
+
+    handlePrint(sb.toString().trim())
   }
+
+
 }
 
 object TestRedditThreadPrinter extends App {
